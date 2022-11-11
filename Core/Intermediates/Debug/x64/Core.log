@@ -1,0 +1,36 @@
+﻿  Application.cpp
+  Previewer.cpp
+F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(76,78): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(76,67): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(94,79): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(94,68): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(110,14): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(111,15): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(126,67): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(126,60): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+  Generating Code...
+  Core.vcxproj -> F:\repos\CreatorExplorer\Build\Debug\x64\Core.exe
