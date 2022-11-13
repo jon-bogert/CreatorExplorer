@@ -11,7 +11,7 @@ Browser& Browser::Get()
 
 Browser::Browser()
 {
-	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(resolution.x, resolution.y), "CreatorExplorer - Browser");
+	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(resolution.x, resolution.y), "CreatorExplorer - Browser", sf::Style::Close);
 	itemsVisible = resolution.y / spacing;
 }
 

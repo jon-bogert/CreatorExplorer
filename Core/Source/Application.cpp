@@ -7,6 +7,7 @@
 #include "Previewer.h"
 
 using std::filesystem::directory_iterator;
+namespace fs = std::filesystem;
 
 Application& Application::Get()
 {
@@ -80,14 +81,26 @@ bool Application::LoadDir()
     Browser::Get().ClearItems();
     for (const auto& entry : directory_iterator(PathStr()))
     {
-        if (entry.is_directory() || entry.is_regular_file())
+        std::string fileName = entry.path().filename().u8string();
+        bool canAdd = true;
+        //if (entry.path().has_extension())
+        if (entry.is_regular_file())
+            Browser::Get().AddItem(std::make_shared<Item>(fileName, entry.path().extension().u8string()));
+        else
         {
-            std::string fileName = entry.path().filename().u8string();
+            try
+            {
+                directory_iterator(PathStr() + fileName);
+            }
+            catch (std::filesystem::filesystem_error err)
+            {
+                canAdd = false;
+            }
 
-            if (entry.path().has_extension())
-                Browser::Get().AddItem(std::make_shared<Item>(fileName, entry.path().extension().u8string()));
-            else
+            if (canAdd)
+            {
                 Browser::Get().AddItem(std::make_shared<Item>(fileName));
+            }
         }
     }
     Browser::Get().TriggerDraw();

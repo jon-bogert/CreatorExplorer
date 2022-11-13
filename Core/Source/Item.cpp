@@ -12,7 +12,6 @@ const std::vector<std::string> TXT_EXT =
     ".cs", ".CS",
     ".py", ".PY",
     ".bat", ".BAT",
-    ".ini", ".INI",
     ".xml", ".XML",
     ".dat", ".DAT",
     ".config", ".CONFIG",
@@ -47,14 +46,14 @@ Item::Item(std::string name, std::string extention)
     text.setCharacterSize(textSize);
     text.setFillColor(sf::Color::White);
 
-    if (extention != "");
+    if (extention != "")
     {
-        type == ItemType::File;
-        //for (std::string ext : TXT_EXT)
-        //{
-        //    if (ext == extention)
-        //        type = ItemType::Text;
-        //}
+        type = ItemType::File;
+        for (std::string ext : TXT_EXT)
+        {
+            if (ext == extention)
+                type = ItemType::Text;
+        }
         for (std::string ext : IMG_EXT)
         {
             if (ext == extention)

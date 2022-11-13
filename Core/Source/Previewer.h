@@ -8,14 +8,15 @@ class Previewer
 	std::shared_ptr<Item> item = nullptr;
 
 	sf::Text loadingText;
-	sf::Color bgColor = { sf::Color::Black };
+	sf::Color bgColor = { 30, 30, 30, 255 };
+	sf::Sprite icon;
 
 	//Image
 	std::shared_ptr<sf::Texture> texture = nullptr;
 	std::shared_ptr<sf::Sprite> sprite = nullptr;
 
-	sf::Vector2f defSize = { 400.f, 225.f };
-	sf::Vector2f maxSize = { 1920.f, 1080.f };
+	sf::Vector2f defSize = { 700.f, 400.f };
+	sf::Vector2f maxSize = { 1280.f, 720.f };
 
 	//Audio
 	bool isAudioStreaming = false;
@@ -23,6 +24,9 @@ class Previewer
 
 	Music* audioLong = nullptr;
 	Sound* audioShort = nullptr;
+
+	//Text
+	sf::Text textContents;
 
 public:
 	static Previewer& Get();
@@ -38,6 +42,7 @@ public:
 	void DefaultUpdate();
 	void ImageUpdate();
 	void AudioUpdate();
+	void TextUpdate();
 
 	void LoadFile();
 	
@@ -54,5 +59,6 @@ private:
 	void LoadDefault();
 	void LoadImage();
 	void LoadAudio();
+	void LoadText();
 };
 

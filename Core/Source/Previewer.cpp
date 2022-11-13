@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "AssetManager.h"
 
+
 Previewer& Previewer::Get()
 {
 	static Previewer instance;
@@ -22,6 +23,10 @@ Previewer::Previewer()
 	loadingText.setFillColor(sf::Color::White);
 	loadingText.setString("Loading...");
 	loadingText.setPosition({(defSize.x / 2.f) - (loadingText.getLocalBounds().width / 2.f), (defSize.y / 2.f) - (loadingText.getLocalBounds().height / 2.f) });
+
+	float iconBuffer = (defSize.y / 2) - 64;
+	icon.setPosition(75, iconBuffer);
+	icon.setScale(0.5f, 0.5f);
 }
 
 Previewer::~Previewer()
@@ -59,8 +64,16 @@ void Previewer::Update()
 		case ItemType::Audio:
 			AudioUpdate();
 			break;
+		case ItemType::Text:
+			TextUpdate();
+			break;
 		default:
 			DefaultUpdate();
+		}
+		if (!window->isOpen())
+		{
+			isActive = false;
+			Deactivate();
 		}
 	}
 }
@@ -69,7 +82,8 @@ void Previewer::DefaultUpdate()
 {
 	if (window)
 	{
-		window->clear(sf::Color::Black);
+		window->clear(bgColor);
+		window->draw(icon);
 		window->display();
 	}
 }
@@ -78,7 +92,7 @@ void Previewer::ImageUpdate()
 {
 	if (window)
 	{
-		window->clear(sf::Color::Black);
+		window->clear(bgColor);
 		window->draw(*sprite);
 		window->display();
 	}
@@ -89,16 +103,24 @@ void Previewer::AudioUpdate()
 	if (isAudioStreaming) UpdateMusicStream(*audioLong);
 	if (window)
 	{
-		window->clear(sf::Color::Black);
+		window->clear(bgColor);
+		window->draw(icon);
 		window->display();
 	}
+}
+
+void Previewer::TextUpdate()
+{
+	window->clear(bgColor);
+	window->draw(textContents);
+	window->display();
 }
 
 void Previewer::LoadFile()
 {
 	if (isActive)
 	{
-		window->requestFocus();
+		//window->requestFocus();
 		Reset();
 		int currItem = Application::Get().GetCurrItem();
 		
@@ -111,6 +133,9 @@ void Previewer::LoadFile()
 			break;
 		case ItemType::Audio:
 			LoadAudio();
+			break;
+		case ItemType::Text:
+			LoadText();
 			break;
 		default:
 			LoadDefault();
@@ -130,7 +155,7 @@ std::shared_ptr<sf::RenderWindow> Previewer::GetWindow()
 
 void Previewer::Activate()
 {
-	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(defSize.x, defSize.y), "CreatorExplorer - Previewer");
+	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(defSize.x, defSize.y), "CreatorExplorer - Previewer", sf::Style::Close);
 	LoadFile();
 }
 
@@ -149,7 +174,7 @@ void Previewer::Reset()
 	sprite = nullptr;
 
 	if (window->getSize().x != defSize.x || window->getSize().y != defSize.y)
-		window = std::make_shared<sf::RenderWindow>(sf::VideoMode(defSize.x, defSize.y), "CreatorExplorer - Previewer");
+		window = std::make_shared<sf::RenderWindow>(sf::VideoMode(defSize.x, defSize.y), "CreatorExplorer - Previewer", sf::Style::Close);
 
 	//Audio
 	if (audioLong)
@@ -162,20 +187,28 @@ void Previewer::Reset()
 
 	//Loading Display
 	window->clear(bgColor);
+	window->draw(icon);
 	window->draw(loadingText);
 	window->display();
 }
 
 void Previewer::LoadRoot()
 {
+	icon.setTexture(AssetManager::GetTexture("folder"));
 }
 
 void Previewer::LoadDefault()
 {
+	if (item->GetType() == ItemType::Folder)
+		icon.setTexture(AssetManager::GetTexture("folder"));
+	else
+		icon.setTexture(AssetManager::GetTexture("file"));
 }
 
 void Previewer::LoadImage()
 {
+	icon.setTexture(AssetManager::GetTexture("picture"));
+
 	texture = std::make_shared<sf::Texture>();
 	texture->loadFromFile(Application::Get().PathStr() + item->GetName());
 
@@ -195,7 +228,7 @@ void Previewer::LoadImage()
 		height = texture->getSize().y * scale;
 	}
 
-	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(width, height), "CreatorExplorer - Previewer");
+	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(width, height), "CreatorExplorer - Previewer", sf::Style::Close);
 
 	sprite = std::make_shared<sf::Sprite>();
 	sprite->setTexture(*texture);
@@ -204,6 +237,8 @@ void Previewer::LoadImage()
 
 void Previewer::LoadAudio()
 {
+	icon.setTexture(AssetManager::GetTexture("music"));
+
 	if (audioLong)
 	{
 		StopMusicStream(*audioLong);
@@ -232,4 +267,24 @@ void Previewer::LoadAudio()
 	}
 	
 	(isAudioStreaming) ? PlayMusicStream(*audioLong) : PlaySound(*audioShort);
+}
+
+void Previewer::LoadText()
+{
+	icon.setTexture(AssetManager::GetTexture("doc"));
+
+	std::string textStr;
+	std::ifstream file;
+	file.open(Application::Get().PathStr() + item->GetName());
+
+	std::string lineBuffer;
+	while (std::getline(file, lineBuffer))
+	{
+		textStr.append(lineBuffer + "\n");
+	}
+
+	textContents.setFont(AssetManager::GetFont());
+	textContents.setCharacterSize(12);
+	textContents.setFillColor({ 218, 218, 218, 255 });
+	textContents.setString(textStr);
 }
