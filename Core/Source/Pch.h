@@ -14,4 +14,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
+#include <raylib/raudio.h>
+
 #define BAM std::cout << "BAM!" << std::endl

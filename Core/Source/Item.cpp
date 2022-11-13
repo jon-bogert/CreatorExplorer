@@ -4,32 +4,40 @@
 
 const std::vector<std::string> TXT_EXT =
 {
-    ".txt",
-    ".h"
-    ".c"
-    ".cpp"
-    ".cs"
-    ".py"
-    ".bat"
-    ".ini"
+    ".txt", ".TXT",
+    ".h", ".H",
+    ".c", ".C",
+    ".hpp", ".HPP",
+    ".cpp", ".CPP",
+    ".cs", ".CS",
+    ".py", ".PY",
+    ".bat", ".BAT",
+    ".ini", ".INI",
+    ".xml", ".XML",
+    ".dat", ".DAT",
+    ".config", ".CONFIG",
+    ".properties", ".PROPERTIES",
+    ".gitignore", ".GITIGNORE",
+    ".gitattributes", ".GITATTRIBUTES",
+    ".md", ".MD"
 };
 const std::vector<std::string> IMG_EXT =
 {
-    ".jpg",
-    ".png"
+    ".jpg", ".JPG",
+    ".png", ".PNG"
 };
 const std::vector<std::string> AUD_EXT =
 {
-    ".mp3",
-    ".wav",
-    ".ogg"
+    ".mp3", ".MP3",
+    ".wav", ".WAV",
+    ".ogg", ".OGG",
 };
 const std::vector<std::string> VID_EXT =
 {
-    ".mov",
-    ".mp4",
-    ".mkv",
-    ".avi",
+    ".mov", ".MOV",
+    ".mp4", ".MP4",
+    ".mkv", ".MKV",
+    ".avi", ".AVI"
 };
 
 Item::Item(std::string name, std::string extention)
@@ -52,11 +60,11 @@ Item::Item(std::string name, std::string extention)
             if (ext == extention)
                 type = ItemType::Image;
         }
-        //for (std::string ext : AUD_EXT)
-        //{
-        //    if (ext == extention)
-        //        type = ItemType::Audio;
-        //}
+        for (std::string ext : AUD_EXT)
+        {
+            if (ext == extention)
+                type = ItemType::Audio;
+        }
         //for (std::string ext : VID_EXT)
         //{
         //    if (ext == extention)

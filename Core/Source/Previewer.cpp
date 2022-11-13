@@ -4,11 +4,27 @@
 #include "InputManager.h"
 #include "Browser.h"
 #include "Application.h"
+#include "AssetManager.h"
 
 Previewer& Previewer::Get()
 {
 	static Previewer instance;
 	return instance;
+}
+
+Previewer::Previewer()
+{
+	loadingText.setFont(AssetManager::GetFont());
+	loadingText.setCharacterSize(24);
+	loadingText.setFillColor(sf::Color::White);
+	loadingText.setString("Loading...");
+	loadingText.setPosition({(defSize.x / 2.f) - (loadingText.getLocalBounds().width / 2.f), (defSize.y / 2.f) - (loadingText.getLocalBounds().height / 2.f) });
+}
+
+Previewer::~Previewer()
+{
+	delete audioLong;
+	delete audioShort;
 }
 
 bool Previewer::ToggleWindow()
@@ -30,9 +46,45 @@ void Previewer::Update()
 {
 	if (isActive)
 	{
+		switch (item->GetType())
+		{
+		case ItemType::Image:
+			ImageUpdate();
+			break;
+		case ItemType::Audio:
+			AudioUpdate();
+			break;
+		default:
+			DefaultUpdate();
+		}
+	}
+}
 
+void Previewer::DefaultUpdate()
+{
+	if (window)
+	{
 		window->clear(sf::Color::Black);
-		if (sprite) window->draw(*sprite);
+		window->display();
+	}
+}
+
+void Previewer::ImageUpdate()
+{
+	if (window)
+	{
+		window->clear(sf::Color::Black);
+		window->draw(*sprite);
+		window->display();
+	}
+}
+
+void Previewer::AudioUpdate()
+{
+	if (isAudioStreaming) UpdateMusicStream(*audioLong);
+	if (window)
+	{
+		window->clear(sf::Color::Black);
 		window->display();
 	}
 }
@@ -48,15 +100,19 @@ void Previewer::LoadFile()
 			LoadRoot();
 			return;
 		}
-		std::shared_ptr<Item> item = Browser::Get().GetItem(currItem);
+		
+		item = Browser::Get().GetItem(currItem);
 
 		switch (item->GetType())
 		{
 		case ItemType::Image:
-			LoadImage(item);
+			LoadImage();
+			break;
+		case ItemType::Audio:
+			LoadAudio();
 			break;
 		default:
-			LoadDefault(item);
+			LoadDefault();
 		}
 	}
 }
@@ -73,6 +129,7 @@ std::shared_ptr<sf::RenderWindow> Previewer::GetWindow()
 
 void Previewer::Activate()
 {
+	InitAudioDevice();
 	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(defSize.x, defSize.y), "CreatorExplorer - Previewer");
 	LoadFile();
 }
@@ -80,11 +137,13 @@ void Previewer::Activate()
 void Previewer::Deactivate()
 {
 	Reset();
+	CloseAudioDevice();
 	window = nullptr;
 }
 
 void Previewer::Reset()
 {
+	//Image
 	item = nullptr;
 
 	texture = nullptr;
@@ -92,17 +151,30 @@ void Previewer::Reset()
 
 	if (window->getSize().x != defSize.x || window->getSize().y != defSize.y)
 		window = std::make_shared<sf::RenderWindow>(sf::VideoMode(defSize.x, defSize.y), "CreatorExplorer - Previewer");
+
+	//Audio
+	if (audioLong)
+	{
+		StopMusicStream(*audioLong);
+		delete audioLong;
+		audioLong = nullptr;
+	}
+
+	//Loading Display
+	window->clear(bgColor);
+	window->draw(loadingText);
+	window->display();
 }
 
 void Previewer::LoadRoot()
 {
 }
 
-void Previewer::LoadDefault(std::shared_ptr<Item> item)
+void Previewer::LoadDefault()
 {
 }
 
-void Previewer::LoadImage(std::shared_ptr<Item> item)
+void Previewer::LoadImage()
 {
 	texture = std::make_shared<sf::Texture>();
 	texture->loadFromFile(Application::Get().PathStr() + item->GetName());
@@ -128,4 +200,36 @@ void Previewer::LoadImage(std::shared_ptr<Item> item)
 	sprite = std::make_shared<sf::Sprite>();
 	sprite->setTexture(*texture);
 	sprite->setScale(scale, scale);
+}
+
+void Previewer::LoadAudio()
+{
+	if (audioLong)
+	{
+		StopMusicStream(*audioLong);
+		UnloadMusicStream(*audioLong);
+		delete audioLong;
+		audioLong = nullptr;
+	}
+	if (audioShort)
+	{
+		UnloadSound(*audioShort);
+		delete audioShort;
+		audioShort = nullptr;
+	}
+
+	std::string filePath = Application::Get().PathStr() + item->GetName();
+	isAudioStreaming = true;
+
+	audioLong = new Music;
+	*audioLong = LoadMusicStream(filePath.c_str());
+	if (GetMusicTimeLength(*audioLong) <= streamLimit)
+	{
+		UnloadMusicStream(*audioLong); delete audioLong; audioLong = nullptr;
+		audioShort = new Sound;
+		*audioShort = LoadSound(filePath.c_str());
+		isAudioStreaming = false;
+	}
+	
+	(isAudioStreaming) ? PlayMusicStream(*audioLong) : PlaySound(*audioShort);
 }
