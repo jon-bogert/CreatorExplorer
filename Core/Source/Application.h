@@ -26,6 +26,7 @@ public:
 	bool LoadDir();
 
 	int GetCurrItem() const;
+	std::string GetLastName();
 
 private:
 	void ParsePath(std::string pathStr);

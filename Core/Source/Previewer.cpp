@@ -14,6 +14,9 @@ Previewer& Previewer::Get()
 
 Previewer::Previewer()
 {
+	InitAudioDevice();
+	SetMasterVolume(1.f);
+
 	loadingText.setFont(AssetManager::GetFont());
 	loadingText.setCharacterSize(24);
 	loadingText.setFillColor(sf::Color::White);
@@ -25,6 +28,8 @@ Previewer::~Previewer()
 {
 	delete audioLong;
 	delete audioShort;
+
+	CloseAudioDevice();
 }
 
 bool Previewer::ToggleWindow()
@@ -95,11 +100,11 @@ void Previewer::LoadFile()
 	{
 		Reset();
 		int currItem = Application::Get().GetCurrItem();
-		if (currItem <= -1)
-		{
-			LoadRoot();
-			return;
-		}
+		//if (currItem <= -1)
+		//{
+		//	LoadRoot();
+		//	return;
+		//}
 		
 		item = Browser::Get().GetItem(currItem);
 
@@ -129,7 +134,6 @@ std::shared_ptr<sf::RenderWindow> Previewer::GetWindow()
 
 void Previewer::Activate()
 {
-	InitAudioDevice();
 	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(defSize.x, defSize.y), "CreatorExplorer - Previewer");
 	LoadFile();
 }
@@ -137,7 +141,6 @@ void Previewer::Activate()
 void Previewer::Deactivate()
 {
 	Reset();
-	CloseAudioDevice();
 	window = nullptr;
 }
 
@@ -156,6 +159,7 @@ void Previewer::Reset()
 	if (audioLong)
 	{
 		StopMusicStream(*audioLong);
+		UnloadMusicStream(*audioLong);
 		delete audioLong;
 		audioLong = nullptr;
 	}

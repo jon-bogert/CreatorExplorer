@@ -1,6 +1,7 @@
 #include "Pch.h"
 #include "Browser.h"
 #include "Item.h"
+#include "Application.h"
 
 Browser& Browser::Get()
 {
@@ -55,6 +56,8 @@ void Browser::ClearItems()
 
 std::shared_ptr<Item> Browser::GetItem(int index)
 {
+	if (index == -1)
+		return std::make_shared<Item>(Application::Get().GetLastName());
 	return itemBuffer[index];
 }
 
@@ -65,7 +68,7 @@ size_t Browser::NumItems()
 
 void Browser::SetIsSelected(size_t index, bool onOff)
 {
-	if (index >= NumItems())
+	if (index > NumItems())
 	{
 		std::cout << "Invalid item index." << std::endl;
 		return;

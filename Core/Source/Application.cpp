@@ -99,6 +99,11 @@ int Application::GetCurrItem() const
     return currItem;
 }
 
+std::string Application::GetLastName()
+{
+    return path[path.size() - 1];
+}
+
 void Application::ParsePath(std::string pathStr)
 {
     if ((pathStr.size() >= 3 && pathStr[1] != ':' && !(pathStr[2] == '/' || pathStr[2] == '\\')) || pathStr.size() < 3)
@@ -141,7 +146,7 @@ void Application::Navigation()
             Browser::Get().SetIsSelected(currItem, true);
             return;
         }
-        if (currItem < Browser::Get().NumItems())
+        if (currItem < Browser::Get().NumItems() - 1)
         {
             Browser::Get().SetIsSelected(currItem, false);
             ++currItem;
