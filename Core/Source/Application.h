@@ -31,5 +31,7 @@ public:
 private:
 	void ParsePath(std::string pathStr);
 	void Navigation();
+
+	void SelectItem();
 };
 

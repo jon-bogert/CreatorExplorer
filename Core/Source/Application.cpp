@@ -82,10 +82,10 @@ bool Application::LoadDir()
     {
         if (entry.is_directory() || entry.is_regular_file())
         {
-            std::string fileName = entry.path().filename().generic_string();
+            std::string fileName = entry.path().filename().u8string();
 
             if (entry.path().has_extension())
-                Browser::Get().AddItem(std::make_shared<Item>(fileName, entry.path().extension().generic_string()));
+                Browser::Get().AddItem(std::make_shared<Item>(fileName, entry.path().extension().u8string()));
             else
                 Browser::Get().AddItem(std::make_shared<Item>(fileName));
         }
@@ -152,6 +152,9 @@ void Application::Navigation()
             ++currItem;
             Browser::Get().SetIsSelected(currItem, true);
         }
+        if (currItem > Browser::Get().GetItemsVisible() + Browser::Get().GetScrollOffset() - 1)
+            Browser::Get().AddScrollOffset(1);
+
         Browser::Get().TriggerDraw();
         Previewer::Get().LoadFile();
     }
@@ -170,32 +173,73 @@ void Application::Navigation()
             --currItem;
             Browser::Get().SetIsSelected(currItem, true);
         }
+        if (currItem < Browser::Get().GetScrollOffset())
+            Browser::Get().AddScrollOffset(-1);
+
         Browser::Get().TriggerDraw();
         Previewer::Get().LoadFile();
     }
 
     if (InputManager::Get().Select())
     {
-        if (currItem <= -1)
-            return;
-
-        if (Browser::Get().GetIsFolder(currItem))
-        {
-            PathFrwd(Browser::Get().GetName(currItem));
-        }
-        else
-        {
-            system(("\"" + PathStr() + Browser::Get().GetName(currItem)+ "\"").c_str());
-        }
+        SelectItem();
     }
 
     if (InputManager::Get().Back())
     {
         PathBkwd();
+        Browser::Get().SetScrollOffset(0);
     }
 
     if (InputManager::Get().Preview())
     {
         Previewer::Get().ToggleWindow();
     }
+
+    int scrollDelta = -InputManager::Get().ScrollDelta();
+    if ((scrollDelta > 0 && Browser::Get().GetItemsVisible() + Browser::Get().GetScrollOffset() < Browser::Get().GetNumItems()) // Down
+        ||(scrollDelta < 0 && Browser::Get().GetScrollOffset() > 0)) // Up
+    {
+        Browser::Get().AddScrollOffset(scrollDelta);
+        Browser::Get().TriggerDraw();
+    }
+
+    if (InputManager::Get().MouseClick())
+    {
+        sf::Vector2f mousePos = InputManager::Get().MousePos();
+        int newCurrItem = static_cast<int>(mousePos.y / Browser::Get().GetSpacing()) + Browser::Get().GetScrollOffset();
+        if (InputManager::Get().MouseDoubleClick() && newCurrItem == currItem)
+        {
+            SelectItem();
+        }
+        else
+        {
+            if (currItem >= 0)
+                Browser::Get().SetIsSelected(currItem, false);
+            currItem = newCurrItem;
+
+            if (currItem < Browser::Get().GetNumItems())
+                Browser::Get().SetIsSelected(currItem, true);
+            else currItem = -1;
+
+            Browser::Get().TriggerDraw();
+            Previewer::Get().LoadFile();
+        }
+    }
+}
+
+void Application::SelectItem()
+{
+    if (currItem <= -1)
+        return;
+
+    if (Browser::Get().GetIsFolder(currItem))
+    {
+        PathFrwd(Browser::Get().GetName(currItem));
+    }
+    else
+    {
+        system(("\"" + PathStr() + Browser::Get().GetName(currItem) + "\"").c_str());
+    }
+    Browser::Get().SetScrollOffset(0);
 }

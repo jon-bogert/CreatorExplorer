@@ -11,7 +11,8 @@ Browser& Browser::Get()
 
 Browser::Browser()
 {
-	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(1920, 1080), "CreatorExplorer - Browser");
+	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(resolution.x, resolution.y), "CreatorExplorer - Browser");
+	itemsVisible = resolution.y / spacing;
 }
 
 int Browser::SearchItem(std::shared_ptr<Item> item)
@@ -101,6 +102,38 @@ bool Browser::IsEmpty()
 	return itemBuffer.empty();
 }
 
+int Browser::GetNumItems() const
+{
+	return itemBuffer.size();
+}
+
+float Browser::GetSpacing() const
+{
+	return spacing;
+}
+
+int Browser::GetItemsVisible() const
+{
+	return itemsVisible;
+}
+
+int Browser::GetScrollOffset() const
+{
+	return scrollOffset;
+}
+
+void Browser::AddScrollOffset(const int add)
+{
+	scrollOffset += add;
+	CheckScrollOffset();
+}
+
+void Browser::SetScrollOffset(const int setTo)
+{
+	scrollOffset = setTo;
+	CheckScrollOffset();
+}
+
 void Browser::Draw()
 {
 	if (triggerDraw)
@@ -109,7 +142,7 @@ void Browser::Draw()
 		window->clear({ 20, 20, 20, 255 });
 		for (size_t i = 0; i < itemBuffer.size(); ++i)
 		{
-			itemBuffer[i]->Draw(window, { 0.f, spacing * i });
+			itemBuffer[i]->Draw(window, { 0.f, spacing * (i - scrollOffset) });
 		}
 		window->display();
 	}
@@ -133,4 +166,12 @@ std::shared_ptr<sf::RenderWindow> Browser::GetWindow()
 void Browser::TriggerDraw()
 {
 	triggerDraw = true;
+}
+
+void Browser::CheckScrollOffset()
+{
+	if (scrollOffset >= itemBuffer.size() - itemsVisible)
+		scrollOffset = itemBuffer.size() - itemsVisible;
+	if (scrollOffset < 0)
+		scrollOffset = 0;
 }

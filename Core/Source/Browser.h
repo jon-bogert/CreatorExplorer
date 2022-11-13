@@ -9,6 +9,11 @@ class Browser
 	float spacing = 25.f;
 	bool triggerDraw = false;
 
+	sf::Vector2u resolution = { 500, 1080 };
+
+	int itemsVisible{}; // set in constructor
+	int scrollOffset = 0.f;
+
 public:
 	static Browser& Get();
 
@@ -29,6 +34,16 @@ public:
 	std::string GetName(size_t index);
 	bool GetIsFolder(size_t index);
 	bool IsEmpty();
+
+	int GetNumItems() const;
+
+	float GetSpacing() const;
+
+	int GetItemsVisible() const;
+
+	int GetScrollOffset() const;
+	void AddScrollOffset(const int add);
+	void SetScrollOffset(const int setTo);
 	
 	void Draw();
 
@@ -37,6 +52,9 @@ public:
 	std::shared_ptr<sf::RenderWindow> GetWindow();
 
 	void TriggerDraw();
+
+private:
+	void CheckScrollOffset();
 
 };
 

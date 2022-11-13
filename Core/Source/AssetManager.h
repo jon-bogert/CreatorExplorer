@@ -2,7 +2,7 @@
 class AssetManager
 {
 	sf::Font font;
-	std::map<std::string, sf::Texture> textures;
+	std::map<std::string, std::shared_ptr<sf::Texture>> textures;
 
 public:
 	static AssetManager& Get();
@@ -14,5 +14,6 @@ public:
 	~AssetManager() {}
 
 	static sf::Font& GetFont();
+	static sf::Texture& GetTexture(std::string key);
 };
 

@@ -24,6 +24,8 @@ void InputManager::Update()
 		{
 			window->close();
 		}
+
+		//Triggers
 		if (windowEvent.type == sf::Event::KeyPressed && windowEvent.key.code == sf::Keyboard::Up)
 			arrowUp = true;
 		if (windowEvent.type == sf::Event::KeyPressed && windowEvent.key.code == sf::Keyboard::Down)
@@ -34,6 +36,21 @@ void InputManager::Update()
 			back = true;
 		if (windowEvent.type == sf::Event::KeyPressed && windowEvent.key.code == sf::Keyboard::Space)
 			preview = true;
+		if (windowEvent.type == sf::Event::MouseButtonPressed && windowEvent.mouseButton.button == sf::Mouse::Button::Left)
+		{
+			mouseClick = true;
+			if (clickTimer.getElapsedTime().asSeconds() < doubleClickLimit)
+				mouseDoubleClick = true;
+			clickTimer.restart();
+		}
+
+		//Axis
+		if (windowEvent.type == sf::Event::MouseWheelScrolled)
+			scrollDelta = windowEvent.mouseWheelScroll.delta;
+
+		//2D-Axis
+		if (windowEvent.type == sf::Event::MouseMoved)
+			mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window));
 	}
 }
 
@@ -62,6 +79,26 @@ bool InputManager::Preview() const
     return preview;
 }
 
+bool InputManager::MouseClick() const
+{
+	return mouseClick;
+}
+
+bool InputManager::MouseDoubleClick() const
+{
+	return mouseDoubleClick;
+}
+
+int InputManager::ScrollDelta() const
+{
+	return scrollDelta;
+}
+
+sf::Vector2f InputManager::MousePos() const
+{
+	return mousePos;
+}
+
 void InputManager::Reset()
 {
 	arrowUp = false;
@@ -69,4 +106,8 @@ void InputManager::Reset()
 	select = false;
 	back = false;
 	preview = false;
+	mouseClick = false;
+	mouseDoubleClick = false;
+
+	scrollDelta = 0;
 }

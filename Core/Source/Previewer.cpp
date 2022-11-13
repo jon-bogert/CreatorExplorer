@@ -98,13 +98,9 @@ void Previewer::LoadFile()
 {
 	if (isActive)
 	{
+		window->requestFocus();
 		Reset();
 		int currItem = Application::Get().GetCurrItem();
-		//if (currItem <= -1)
-		//{
-		//	LoadRoot();
-		//	return;
-		//}
 		
 		item = Browser::Get().GetItem(currItem);
 

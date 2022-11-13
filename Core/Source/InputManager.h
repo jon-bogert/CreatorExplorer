@@ -6,6 +6,15 @@ class InputManager
 	bool select = false;
 	bool back = false;
 	bool preview = false;
+	bool mouseClick = false;
+	bool mouseDoubleClick = false;
+
+	int scrollDelta = 0;
+
+	sf::Vector2f mousePos = { 0, 0 };
+
+	sf::Clock clickTimer{};
+	float doubleClickLimit = 0.5f;
 
 public:
 	static InputManager& Get();
@@ -23,6 +32,12 @@ public:
 	bool Select() const;
 	bool Back() const;
 	bool Preview() const;
+	bool MouseClick() const;
+	bool MouseDoubleClick() const;
+
+	int ScrollDelta() const;
+
+	sf::Vector2f MousePos() const;
 
 private:
 	void Reset();
