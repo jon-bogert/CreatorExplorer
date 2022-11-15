@@ -1,42 +1,57 @@
-﻿  Previewer.cpp
-F:\repos\CreatorExplorer\Core\Source\Browser.h(15,21): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(158,78): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+﻿  Pch.cpp
+  Previewer.cpp
+D:\repos\CreatorExplorer\Core\Source\Browser.h(15,21): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\Previewer.cpp(159,78): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
           with
           [
               T=float
           ]
-F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(158,67): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\Previewer.cpp(159,67): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
           with
           [
               T=float
           ]
-F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(177,79): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\Previewer.cpp(178,79): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
           with
           [
               T=float
           ]
-F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(177,68): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\Previewer.cpp(178,68): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
           with
           [
               T=float
           ]
-F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(215,14): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\Previewer.cpp(216,14): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=unsigned int
           ]
-F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(216,15): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\Previewer.cpp(217,15): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=unsigned int
           ]
-F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(231,67): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-F:\repos\CreatorExplorer\Core\Source\Previewer.cpp(231,60): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\Previewer.cpp(232,67): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\Previewer.cpp(232,60): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+  InputManager.cpp
+D:\repos\CreatorExplorer\Core\Source\Browser.h(15,21): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\InputManager.cpp(49,46): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Browser.cpp
+D:\repos\CreatorExplorer\Core\Source\Browser.h(15,21): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\Browser.cpp(15,30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\Browser.cpp(107,26): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\Browser.cpp(174,50): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  AssetManager.cpp
+  Item.cpp
+D:\repos\CreatorExplorer\Core\Source\Item.cpp(46,27): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+  Application.cpp
+D:\repos\CreatorExplorer\Core\Source\Browser.h(15,21): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  CoreBuilder.cpp
+  Generating Code...
   raudio.lib(raudio.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-D:\repos\C\raudio\raudio\raudio.c(2517): warning C4716: 'SaveFileData': must return a value
-D:\repos\C\raudio\raudio\raudio.c(2538): warning C4716: 'SaveFileText': must return a value
   Finished generating code
-  Core.vcxproj -> F:\repos\CreatorExplorer\Build\Debug\x64\Core.exe
+raudio.lib(raudio.obj) : warning LNK4099: PDB 'raudio.pdb' was not found with 'raudio.lib(raudio.obj)' or at 'D:\repos\CreatorExplorer\Build\Debug\x64\raudio.pdb'; linking object as if no debug info
+  Core.vcxproj -> D:\repos\CreatorExplorer\Build\Debug\x64\Core.exe

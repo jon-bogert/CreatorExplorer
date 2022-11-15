@@ -7,6 +7,7 @@
 #include "AssetManager.h"
 
 
+
 Previewer& Previewer::Get()
 {
 	static Previewer instance;
@@ -15,8 +16,8 @@ Previewer& Previewer::Get()
 
 Previewer::Previewer()
 {
-	InitAudioDevice();
-	SetMasterVolume(1.f);
+	rl::InitAudioDevice();
+	rl::SetMasterVolume(1.f);
 
 	loadingText.setFont(AssetManager::GetFont());
 	loadingText.setCharacterSize(24);
@@ -34,7 +35,7 @@ Previewer::~Previewer()
 	delete audioLong;
 	delete audioShort;
 
-	CloseAudioDevice();
+	rl::CloseAudioDevice();
 }
 
 bool Previewer::ToggleWindow()
@@ -100,7 +101,7 @@ void Previewer::ImageUpdate()
 
 void Previewer::AudioUpdate()
 {
-	if (isAudioStreaming) UpdateMusicStream(*audioLong);
+	if (isAudioStreaming) rl::UpdateMusicStream(*audioLong);
 	if (window)
 	{
 		window->clear(bgColor);
@@ -179,8 +180,8 @@ void Previewer::Reset()
 	//Audio
 	if (audioLong)
 	{
-		StopMusicStream(*audioLong);
-		UnloadMusicStream(*audioLong);
+		rl::StopMusicStream(*audioLong);
+		rl::UnloadMusicStream(*audioLong);
 		delete audioLong;
 		audioLong = nullptr;
 	}
@@ -241,14 +242,14 @@ void Previewer::LoadAudio()
 
 	if (audioLong)
 	{
-		StopMusicStream(*audioLong);
-		UnloadMusicStream(*audioLong);
+		rl::StopMusicStream(*audioLong);
+		rl::UnloadMusicStream(*audioLong);
 		delete audioLong;
 		audioLong = nullptr;
 	}
 	if (audioShort)
 	{
-		UnloadSound(*audioShort);
+		rl::UnloadSound(*audioShort);
 		delete audioShort;
 		audioShort = nullptr;
 	}
@@ -256,17 +257,17 @@ void Previewer::LoadAudio()
 	std::string filePath = Application::Get().PathStr() + item->GetName();
 	isAudioStreaming = true;
 
-	audioLong = new Music;
-	*audioLong = LoadMusicStream(filePath.c_str());
-	if (GetMusicTimeLength(*audioLong) <= streamLimit)
+	audioLong = new rl::Music;
+	*audioLong = rl::LoadMusicStream(filePath.c_str());
+	if (rl::GetMusicTimeLength(*audioLong) <= streamLimit)
 	{
-		UnloadMusicStream(*audioLong); delete audioLong; audioLong = nullptr;
-		audioShort = new Sound;
-		*audioShort = LoadSound(filePath.c_str());
+		rl::UnloadMusicStream(*audioLong); delete audioLong; audioLong = nullptr;
+		audioShort = new rl::Sound;
+		*audioShort = rl::LoadSound(filePath.c_str());
 		isAudioStreaming = false;
 	}
 	
-	(isAudioStreaming) ? PlayMusicStream(*audioLong) : PlaySound(*audioShort);
+	(isAudioStreaming) ? rl::PlayMusicStream(*audioLong) : rl::PlaySound(*audioShort);
 }
 
 void Previewer::LoadText()

@@ -22,8 +22,8 @@ class Previewer
 	bool isAudioStreaming = false;
 	float streamLimit = 2.f;
 
-	Music* audioLong = nullptr;
-	Sound* audioShort = nullptr;
+	rl::Music* audioLong = nullptr;
+	rl::Sound* audioShort = nullptr;
 
 	//Text
 	sf::Text textContents;

@@ -186,6 +186,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Source\Previewer.h" />
     <ClInclude Include="Source\InputManager.h" />
     <ClInclude Include="Source\Browser.h" />
@@ -193,6 +194,12 @@
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Core.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="favicon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

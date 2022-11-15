@@ -68,5 +68,18 @@
     <ClInclude Include="Source\Previewer.h">
       <Filter>Source\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Source\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Core.rc">
+      <Filter>Source\Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="favicon.ico">
+      <Filter>Source\Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
