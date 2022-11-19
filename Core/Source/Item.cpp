@@ -14,6 +14,7 @@ const std::vector<std::string> TXT_EXT =
     ".bat", ".BAT",
     ".xml", ".XML",
     ".dat", ".DAT",
+    ".log", ".LOG",
     ".config", ".CONFIG",
     ".properties", ".PROPERTIES",
     ".gitignore", ".GITIGNORE",
