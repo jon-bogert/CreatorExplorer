@@ -8,6 +8,7 @@ class InputManager
 	bool preview = false;
 	bool mouseClick = false;
 	bool mouseDoubleClick = false;
+	bool prevClick = false;
 
 	int scrollDelta = 0;
 
@@ -34,6 +35,7 @@ public:
 	bool Preview() const;
 	bool MouseClick() const;
 	bool MouseDoubleClick() const;
+	bool PrevClick() const;
 
 	int ScrollDelta() const;
 

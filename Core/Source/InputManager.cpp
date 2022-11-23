@@ -47,6 +47,8 @@ void InputManager::Update()
 				mouseDoubleClick = true;
 			clickTimer.restart();
 		}
+		if (windowEvent.type == sf::Event::MouseButtonPressed && windowEvent.mouseButton.button == sf::Mouse::Button::Left && isPrevActive)
+			prevClick = true;
 
 		//Axis
 		if (windowEvent.type == sf::Event::MouseWheelScrolled)
@@ -93,6 +95,11 @@ bool InputManager::MouseDoubleClick() const
 	return mouseDoubleClick;
 }
 
+bool InputManager::PrevClick() const
+{
+	return prevClick;
+}
+
 int InputManager::ScrollDelta() const
 {
 	return scrollDelta;
@@ -112,6 +119,7 @@ void InputManager::Reset()
 	preview = false;
 	mouseClick = false;
 	mouseDoubleClick = false;
+	prevClick = false;
 
 	scrollDelta = 0;
 }

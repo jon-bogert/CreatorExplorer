@@ -126,6 +126,13 @@ void Previewer::AudioUpdate()
 	if (isAudioStreaming)
 	{
 		rl::UpdateMusicStream(*audioLong);
+
+		if (InputManager::Get().PrevClick() && InPlayheadBounds())
+		{
+			float seekTo = ((InputManager::Get().MousePos().x - playheadPos.x) / playheadDim.x) * rl::GetMusicTimeLength(*audioLong);
+			rl::SeekMusicStream(*audioLong, seekTo);
+		}
+
 		playheadMain.setScale({ rl::GetMusicTimePlayed(*audioLong) / rl::GetMusicTimeLength(*audioLong) ,1.f});
 		window->draw(playheadBg);
 		window->draw(playheadMain);
@@ -325,4 +332,11 @@ void Previewer::LoadText()
 	textContents.setCharacterSize(12);
 	textContents.setFillColor({ 218, 218, 218, 255 });
 	textContents.setString(textStr);
+}
+
+bool Previewer::InPlayheadBounds()
+{
+	sf::Vector2f mPos = InputManager::Get().MousePos();
+	return (mPos.x >= playheadPos.x && mPos.y >= playheadPos.y
+		&& mPos.x <= playheadPos.x + playheadDim.x && mPos.y <= playheadPos.y + playheadDim.y);
 }

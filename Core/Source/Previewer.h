@@ -72,5 +72,7 @@ private:
 	void LoadImage();
 	void LoadAudio();
 	void LoadText();
+
+	bool InPlayheadBounds();
 };
 

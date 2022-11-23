@@ -10,7 +10,7 @@
 
 extern std::string res = {};
 
-#define DEF_DIR "C:/"
+#define DEF_DIR "D:/"
 
 #ifdef USE_WINMAIN
 int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, LPSTR cmdline, int cmdshow)
