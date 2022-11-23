@@ -4,6 +4,11 @@ class Previewer
 {
 	std::shared_ptr<sf::RenderWindow> window = nullptr;
 	bool isActive = false;
+	sf::Vector2f defSize = { 700.f, 400.f };
+	sf::Vector2f maxSize = { 1280.f, 720.f };
+	sf::Vector2i windowPos = {
+		(sf::VideoMode::getDesktopMode().width / 2) - (defSize.x / 2),
+		(sf::VideoMode::getDesktopMode().height / 2) - (defSize.y / 2)};
 
 	std::shared_ptr<Item> item = nullptr;
 
@@ -19,9 +24,6 @@ class Previewer
 	//Image
 	std::shared_ptr<sf::Texture> texture = nullptr;
 	std::shared_ptr<sf::Sprite> sprite = nullptr;
-
-	sf::Vector2f defSize = { 700.f, 400.f };
-	sf::Vector2f maxSize = { 1280.f, 720.f };
 
 	//Audio
 	bool isAudioStreaming = false;

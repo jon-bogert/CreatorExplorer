@@ -194,11 +194,13 @@ std::shared_ptr<sf::RenderWindow> Previewer::GetWindow()
 void Previewer::Activate()
 {
 	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(defSize.x, defSize.y), "CreatorExplorer - Previewer", sf::Style::Close);
+	window->setPosition(windowPos);
 	LoadFile();
 }
 
 void Previewer::Deactivate()
 {
+	windowPos = window->getPosition();
 	Reset();
 	window = nullptr;
 }
@@ -211,8 +213,10 @@ void Previewer::Reset()
 	texture = nullptr;
 	sprite = nullptr;
 
+	windowPos = window->getPosition();
 	if (window->getSize().x != defSize.x || window->getSize().y != defSize.y)
 		window = std::make_shared<sf::RenderWindow>(sf::VideoMode(defSize.x, defSize.y), "CreatorExplorer - Previewer", sf::Style::Close);
+	window->setPosition(windowPos);
 
 	//Audio
 	if (audioLong)
@@ -273,6 +277,7 @@ void Previewer::LoadImage()
 	}
 
 	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(width, height), "CreatorExplorer - Previewer", sf::Style::Close);
+	window->setPosition(windowPos);
 
 	sprite = std::make_shared<sf::Sprite>();
 	sprite->setTexture(*texture);
