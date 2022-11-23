@@ -3,14 +3,14 @@
 
 #define USE_MAIN // Use when switching between console and windows application
 
-#ifdef USE_WINMAIN // headers for WinMain
+#ifdef USE_MAIN // headers for WinMain
 #include <windows.h>
 #include <atlstr.h>
 #endif
 
 extern std::string res = {};
 
-#define DEF_DIR "D:/"
+#define DEF_DIR "C:/"
 
 #ifdef USE_WINMAIN
 int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, LPSTR cmdline, int cmdshow)

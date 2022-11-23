@@ -34,3 +34,8 @@
 /.vs
 /Build
 */int
+
+#Files Related to Build Distribution
+AddToContextMenu.exe
+RemoveFromContextMenu.exe
+readme.txt
