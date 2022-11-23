@@ -12,9 +12,13 @@ InputManager& InputManager::Get()
 void InputManager::Update()
 {
 	sf::Event windowEvent;
+	bool isPrevActive{};
 	std::shared_ptr<sf::RenderWindow> window = Browser::Get().GetWindow();
 	if (Previewer::Get().GetIsActive() && Previewer::Get().GetWindow()->hasFocus())
+	{
 		window = Previewer::Get().GetWindow();
+		isPrevActive = true;
+	}
 
 	Reset();
 
@@ -34,9 +38,9 @@ void InputManager::Update()
 			select = true;
 		if (windowEvent.type == sf::Event::KeyPressed && windowEvent.key.code == sf::Keyboard::Backspace)
 			back = true;
-		if (windowEvent.type == sf::Event::KeyPressed && windowEvent.key.code == sf::Keyboard::Space)
+		if (windowEvent.type == sf::Event::KeyPressed && windowEvent.key.code == sf::Keyboard::Space && !isPrevActive)
 			preview = true;
-		if (windowEvent.type == sf::Event::MouseButtonPressed && windowEvent.mouseButton.button == sf::Mouse::Button::Left)
+		if (windowEvent.type == sf::Event::MouseButtonPressed && windowEvent.mouseButton.button == sf::Mouse::Button::Left && !isPrevActive)
 		{
 			mouseClick = true;
 			if (clickTimer.getElapsedTime().asSeconds() < doubleClickLimit)

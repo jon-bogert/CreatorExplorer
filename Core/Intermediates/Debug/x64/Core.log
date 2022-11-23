@@ -1,2 +1,14 @@
-﻿  CoreBuilder.cpp
-D:\repos\CreatorExplorer\Core\Source\CoreBuilder.cpp(13,1): error C2001: newline in constant
+﻿  InputManager.cpp
+D:\repos\CreatorExplorer\Core\Source\Browser.h(15,21): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\repos\CreatorExplorer\Core\Source\InputManager.cpp(53,46): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Item.cpp
+D:\repos\CreatorExplorer\Core\Source\Item.cpp(48,27): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+  CoreBuilder.cpp
+  Generating Code...
+  raudio.lib(raudio.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+  Finished generating code
+raudio.lib(raudio.obj) : warning LNK4099: PDB 'raudio.pdb' was not found with 'raudio.lib(raudio.obj)' or at 'D:\repos\CreatorExplorer\Build\Debug\x64\raudio.pdb'; linking object as if no debug info
+  Core.vcxproj -> D:\repos\CreatorExplorer\Build\Debug\x64\Core.exe
