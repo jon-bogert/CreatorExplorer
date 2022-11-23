@@ -38,7 +38,7 @@ void InputManager::Update()
 			select = true;
 		if (windowEvent.type == sf::Event::KeyPressed && windowEvent.key.code == sf::Keyboard::Backspace)
 			back = true;
-		if (windowEvent.type == sf::Event::KeyPressed && windowEvent.key.code == sf::Keyboard::Space && !isPrevActive)
+		if (windowEvent.type == sf::Event::KeyPressed && windowEvent.key.code == sf::Keyboard::Space)
 			preview = true;
 		if (windowEvent.type == sf::Event::MouseButtonPressed && windowEvent.mouseButton.button == sf::Mouse::Button::Left && !isPrevActive)
 		{

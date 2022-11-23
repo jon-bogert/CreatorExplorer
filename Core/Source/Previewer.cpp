@@ -25,9 +25,28 @@ Previewer::Previewer()
 	loadingText.setString("Loading...");
 	loadingText.setPosition({(defSize.x / 2.f) - (loadingText.getLocalBounds().width / 2.f), (defSize.y / 2.f) - (loadingText.getLocalBounds().height / 2.f) });
 
+	fileNameText.setFont(AssetManager::GetFont());
+	fileNameText.setCharacterSize(24);
+	fileNameText.setFillColor(sf::Color::White);
+	fileNameText.setString("FileName.ext");
+	fileNameText.setPosition(fileNamePos);
+
+	fileTypeText.setFont(AssetManager::GetFont());
+	fileTypeText.setCharacterSize(18);
+	fileTypeText.setFillColor(sf::Color::White);
+	fileTypeText.setString("FileType");
+	fileTypeText.setPosition(fileTypePos);
+
 	float iconBuffer = (defSize.y / 2) - 64;
 	icon.setPosition(75, iconBuffer);
 	icon.setScale(0.5f, 0.5f);
+
+	playheadBg.setSize(playheadDim);
+	playheadBg.setPosition(playheadPos);
+	playheadBg.setFillColor(playheadBgColor);
+	playheadMain.setSize(playheadDim);
+	playheadMain.setPosition(playheadPos);
+	playheadMain.setFillColor(playheadMainColor);
 }
 
 Previewer::~Previewer()
@@ -84,6 +103,8 @@ void Previewer::DefaultUpdate()
 	if (window)
 	{
 		window->clear(bgColor);
+		window->draw(fileNameText);
+		window->draw(fileTypeText);
 		window->draw(icon);
 		window->display();
 	}
@@ -101,10 +122,18 @@ void Previewer::ImageUpdate()
 
 void Previewer::AudioUpdate()
 {
-	if (isAudioStreaming) rl::UpdateMusicStream(*audioLong);
+	window->clear(bgColor);
+	if (isAudioStreaming)
+	{
+		rl::UpdateMusicStream(*audioLong);
+		playheadMain.setScale({ rl::GetMusicTimePlayed(*audioLong) / rl::GetMusicTimeLength(*audioLong) ,1.f});
+		window->draw(playheadBg);
+		window->draw(playheadMain);
+	}
 	if (window)
 	{
-		window->clear(bgColor);
+		window->draw(fileNameText);
+		window->draw(fileTypeText);
 		window->draw(icon);
 		window->display();
 	}
@@ -126,6 +155,7 @@ void Previewer::LoadFile()
 		int currItem = Application::Get().GetCurrItem();
 		
 		item = Browser::Get().GetItem(currItem);
+		fileNameText.setString(item->GetName());
 
 		switch (item->GetType())
 		{
@@ -201,9 +231,15 @@ void Previewer::LoadRoot()
 void Previewer::LoadDefault()
 {
 	if (item->GetType() == ItemType::Folder)
+	{
 		icon.setTexture(AssetManager::GetTexture("folder"));
+		fileTypeText.setString("Folder");
+	}
 	else
+	{
 		icon.setTexture(AssetManager::GetTexture("file"));
+		fileTypeText.setString("File");
+	}
 }
 
 void Previewer::LoadImage()
@@ -239,6 +275,7 @@ void Previewer::LoadImage()
 void Previewer::LoadAudio()
 {
 	icon.setTexture(AssetManager::GetTexture("music"));
+	fileTypeText.setString("Audio");
 
 	if (audioLong)
 	{
